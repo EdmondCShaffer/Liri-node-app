@@ -1,17 +1,18 @@
 require("dotenv").config();
 var keys = require("./keys.js");
-var spotify = require ("spotify");
+var Spotify = require('node-spotify-api');
 var fs = require ("fs");
-var request = require(request);
-
+var request = require('request');
 var argOne = process.argv[2];
 var agrTwo = process.argv[3];
-
-// User input cases.
+var spotify = new Spotify({
+    id: keys.spotify.id,
+    secret:keys.spotify.secret
+   });
 
 switch(argOne){
     case "concert-this":
-        displayConsert();
+        concertThis();
         break;
 
     case "movie-this":
@@ -28,17 +29,38 @@ switch(argOne){
 
 };
 
-spotifyThisSong = function(){
+function concertThis(){
+    var artistSearch
+    if (agrTwo === undefined){
+        artistSearch === "Lucas Graham";
+    }
+    else{
+        artistSearch = argtwo;
+    }
+
+    queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=" + keys.bands.Band_id;
+    request(queryUrl,function(error,response,body){
+        if(!error && response.statusCode === 200){
+
+		
+            
+        }
+    });
+
+    
+}
+
+function spotifyThisSong(){
     var spotifySearch;
-    if (agrTwo === null){
+    if (agrTwo === undefined){
         spotifySearch === "The Sign";
     }
     else{
-        spotifySearch === agrTwo;
+        spotifySearch = agrTwo;
 
     }
 
-    spotify.search({type:"track", query:spotifySearch}, function(erorr ,data){
+    spotify.search({type:"track", query:spotifySearch}, function(error ,data){
         if(error){
             console.log("User Error: " + error);
         }
@@ -53,16 +75,16 @@ spotifyThisSong = function(){
 };
 
 
-movieThis = function(){
+ function movieThis(){
     var movieName;
-    if(agrTwo === null){
+    if(agrTwo == undefined){
         movieName = "mr nobody"
     }
     else{
-        movieName === argTwo;
-    };
+        movieName = agrTwo;
+    }
 
-    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey="+keys.omdb.apikey;
 
     request(queryUrl,function(error,response,body){
         if(!error && response.statusCode === 200){
@@ -81,8 +103,8 @@ movieThis = function(){
 }
 
 doWhatItSays = function(){
-    fs.readFile('random.txt', "utf8", function(error, data){
-      var text = data.split(',');
+    fs.readFile("random.txt", "utf8", function(error, data){
+      var text = data.split(",");
   
       spotifyThisSong(text[1]);
     });
