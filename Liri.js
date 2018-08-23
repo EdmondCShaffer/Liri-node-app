@@ -1,5 +1,6 @@
 require("dotenv").config();
 var keys = require("./keys.js");
+var Bands = require("bandsintown-events");
 var Spotify = require('node-spotify-api');
 var fs = require ("fs");
 var request = require('request');
@@ -9,6 +10,7 @@ var spotify = new Spotify({
     id: keys.spotify.id,
     secret:keys.spotify.secret
    });
+
 
 switch(argOne){
     case "concert-this":
@@ -35,14 +37,18 @@ function concertThis(){
         artistSearch === "Lucas Graham";
     }
     else{
-        artistSearch = argtwo;
+        artistSearch = agrTwo;
     }
 
-    queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=" + keys.bands.Band_id;
+    queryUrl = "https://rest.bandsintown.com/artists/" + artistSearch + "/events?app_id=" + keys.bands.Band_id;
     request(queryUrl,function(error,response,body){
         if(!error && response.statusCode === 200){
 
-		
+           
+                // console.log("Artist: " + JSON.parse (body)[0].artists.name);
+               console.log("Venue name: " + JSON.parse (body)[0].venue.name);
+               console.log("City: " + JSON.parse (body)[0].venue.city);
+            // }	
             
         }
     });
