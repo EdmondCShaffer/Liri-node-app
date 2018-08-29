@@ -34,7 +34,7 @@ switch(argOne){
 function concertThis(){
     var artistSearch
     if (agrTwo === undefined){
-        artistSearch === "Lucas Graham";
+        artistSearch === "Lukas Graham";
     }
     else{
         artistSearch = agrTwo;
@@ -45,9 +45,11 @@ function concertThis(){
         if(!error && response.statusCode === 200){
 
            
-                // console.log("Artist: " + JSON.parse (body)[0].artists.name);
+             console.log("Artist: " + agrTwo.toUpperCase());
                console.log("Venue name: " + JSON.parse (body)[0].venue.name);
+               console.log("State: " + JSON.parse (body)[0].venue.region);
                console.log("City: " + JSON.parse (body)[0].venue.city);
+            //    console.log("Date & Time: " + moment() + JSON.parse(body).datetime);
             // }	
             
         }
@@ -56,14 +58,18 @@ function concertThis(){
     
 }
 
-function spotifyThisSong(){
+function spotifyThisSong(param){
     var spotifySearch;
-    if (agrTwo === undefined){
-        spotifySearch === "The Sign";
-    }
-    else{
-        spotifySearch = agrTwo;
+    if(param){
+        spotifySearch = param;
+    }else{
+        if (agrTwo === undefined){
+            spotifySearch === "The Sign";
+        }
+        else{
+            spotifySearch = agrTwo;
 
+        }
     }
 
     spotify.search({type:"track", query:spotifySearch}, function(error ,data){
@@ -108,10 +114,10 @@ function spotifyThisSong(){
     });
 }
 
-doWhatItSays = function(){
+function doWhatItSays(){
     fs.readFile("random.txt", "utf8", function(error, data){
-      var text = data.split(",");
-  
-      spotifyThisSong(text[1]);
+      var txt = data.split(",");
+  console.log(txt);
+      spotifyThisSong(txt[1]);
     });
   }

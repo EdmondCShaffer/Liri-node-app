@@ -20,6 +20,7 @@
   "dependencies": {
     "bandsintown-events": "^1.0.4",
     "dotenv": "^6.0.0",
+    "fs": "0.0.1-security",
     "node-spotify-api": "^1.0.7",
     "request": "^2.88.0",
     "xhr2": "^0.1.4"
